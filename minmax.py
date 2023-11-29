@@ -19,7 +19,10 @@ def minValue(state, alpha ,beta):
         return m
 
 def successor(state):
-    pass
+    temp = []
+    for i in range(len(state)):
+        if state[i] != "": continue
+        
 
 def isTerminal(state):
     if state[0] == state[1] == state[2]: return winner(state[0])
@@ -30,7 +33,20 @@ def isTerminal(state):
     elif state[2] == state[5] == state[8]: return winner(state[2])
     elif state[0] == state[4] == state[8]: return winner(state[0])
     elif state[2] == state[4] == state[6]: return winner(state[2])
+    return "No Winner"
 
 def winner(move):
     if move == "X": return -1
     return 1   
+
+
+
+# ! test case
+# X O X
+# O X O
+# O O 
+state = ["X","O","X","O","X","O","O","O","O"]
+
+alpha = float("-inf")
+beta = float("inf")
+print(maxValue(state, alpha, beta))
