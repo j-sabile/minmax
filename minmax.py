@@ -81,12 +81,6 @@ def getMove(type):
     elif (type == MAX and not isAIFirstMove) or (type == MIN and isAIFirstMove): return O
 
 
-def printboard(board):
-    for i in range(3):
-        for j in range(3):
-            print((f"{board[i*3+j]}\t").expandtabs(3), end="")
-        print()
-
 def loadGame():
     buttons[0] = Tkinter.Button(frame, text=puzzle[0], font=FONT, width=2*TILESIZE, height=TILESIZE, command=lambda:clickCell(0))
     buttons[0].grid(row=0//3,column=0%3, sticky=Tkinter.NSEW)
@@ -123,7 +117,6 @@ def AITurn():
 
 def isFinished():
     winner = isTerminal(puzzle)
-    print(winner)
     if not winner: return
     if (winner == O and isAIFirstMove) or (winner == X and not isAIFirstMove): winner = "Congratulations! You have beaten the AI in Tic Tac Toe."
     elif (winner == X and isAIFirstMove) or (winner == O and not isAIFirstMove): winner = "Oops! The AI has won this time." 
