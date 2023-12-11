@@ -1,16 +1,20 @@
 # Jerico Sabile
 
+
+import tkinter as Tkinter
 import random
+
 
 MIN = "min"
 MAX = "max"
 X = "X"
 O = "O"
 E = ""
+FONT = ("Arial",15)
+TILESIZE = 4
 
 
 def value(state, alpha, beta, type):
-    # print("IN VALUE", state)
     value = isTerminal(state)
     if value == True: return 0
     elif (value == X and type == MIN) or (value == O and type == MIN): return 1
@@ -21,55 +25,42 @@ def value(state, alpha, beta, type):
 def getAiMove(state):
     alpha = float("-inf")
     beta = float("inf")
-    # root = Node(state, alpha, beta, float("-inf"))
     m = float("-inf")
     bestState = state
     for succesorState in successor(state, getMove(MAX)):
         v = value(succesorState, alpha, beta, MIN)
-        # print("\nROOT")
-        # root.print()
-        # print("newState=", succesorState)
-        # print()
         if v > m:
-            # print("CHANGING v=",v)
             m = v
             bestState = succesorState
         if v >= beta: return succesorState
         alpha = max(alpha, m)
-    # root.print()
     return bestState
 
 def maxValue(state, alpha, beta):
-    # print("IN MAX VALUE", state, alpha, beta)
     m = float("-inf")
     for succesorState in successor(state, getMove(MAX)):
         v = value(succesorState, alpha, beta, MIN)
         m = max(m, v)
         if v >= beta: return m
         alpha = max(alpha, m)
-        # print("RETURNING m =", m)
     return m
 
 def minValue(state, alpha ,beta):
-    # print("IN MIN VALUE", state)
     m = float("inf")
     for succesorState in successor(state, getMove(MIN)):
         v = value(succesorState, alpha, beta, MAX)
         m = min(m, v)
         if v <= alpha: return m
         beta = min(beta, m)
-        # print("RETURNING m =", m)
     return m
 
 def successor(state, move):
-    # print("IN SUCCESSOR")
     temp = []
     for i in range(len(state)):
-        if state[i] != "": continue
+        if state[i] != E: continue
         newTemp = state.copy()
         newTemp[i] = move
         temp.append(newTemp)
-    # print("RETURNING", temp)
     return temp
 
 def isTerminal(state):
@@ -95,12 +86,6 @@ def printboard(board):
         for j in range(3):
             print((f"{board[i*3+j]}\t").expandtabs(3), end="")
         print()
-
-FONT = ("Arial",15)
-TILESIZE = 4
-
-import tkinter as Tkinter
-import random
 
 def loadGame():
     buttons[0] = Tkinter.Button(frame, text=puzzle[0], font=FONT, width=2*TILESIZE, height=TILESIZE, command=lambda:clickCell(0))
